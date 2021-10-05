@@ -91,3 +91,18 @@ div.card > span.title {
 ul {
 	width: 100%;
 }
+
+div.controls {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px 0;
+	column-gap: 5px;
+}
+div.controls > select {
+	height: 30px;
+	border-radius: 8px;
+	border: 1px solid #c3c8da;
+	color: #33475b;
+}
