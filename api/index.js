@@ -32,6 +32,17 @@ app.get("/", (req, res) => res.send("API is running!"));
 
 app.get("/list", (req, res) => res.status(200).json(list));
 
+app.post("/list", (req, res) => {
+	try {
+		const person = req.body;
+		list.push({ id: sequence, ...person, group: defineGroup(person.age) });
+		sequence += 1;
+		res.status(200).send(list);
+	} catch (err) {
+		res.status(500).send(`Erro ao inserir pessoa: ${err}`);
+	}
+});
+
 app.listen(3000, () => {
 	console.log(`api is running @ localhost:${port}`);
 });
