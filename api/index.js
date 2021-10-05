@@ -7,11 +7,26 @@ app.use(cors());
 const port = 3000;
 
 const list = [
-	{ id: 1, name: "Filipe Miranda", age: 20 },
-	{ id: 2, name: "Tiago Miranda", age: 11 },
+	{ id: 1, name: "Filipe Miranda", age: 20, group: defineGroup(20) },
+	{ id: 2, name: "Tiago Miranda", age: 11, group: defineGroup(11) },
 ];
 
 let sequence = 3;
+
+function defineGroup(age) {
+	if (age >= 0 && age < 12) {
+		return "kid";
+	}
+	if (age >= 12 && age <= 19) {
+		return "teen";
+	}
+	if (age >= 20 && age < 65) {
+		return "adult";
+	}
+	if (age >= 65) {
+		return "elder";
+	}
+}
 
 app.get("/", (req, res) => res.send("API is running!"));
 
