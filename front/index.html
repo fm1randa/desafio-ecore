@@ -42,5 +42,18 @@
 				</div>
 			</div>
 		</div>
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+		<script>
+			const api = axios.create({
+				baseURL: "http://localhost:3000",
+			});
+
+			async function loadHandler() {
+				const { data: list } = await api.get("/list");
+				console.log(list);
+			}
+
+			loadHandler();
+		</script>
 	</body>
 </html>
