@@ -73,7 +73,10 @@ async function insertHandler() {
 		clearLists();
 		orderHandler();
 	} catch (err) {
-		alert("Ocorreu um erro ao inserir: " + err);
+		if (err.response?.data) {
+			return alert(`${err.response.data}`);
+		}
+		return alert("Ocorreu um erro ao inserir: " + err);
 	}
 }
 
