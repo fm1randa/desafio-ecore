@@ -35,9 +35,12 @@ app.get("/list", (req, res) => res.status(200).json(list));
 app.post("/list", (req, res) => {
 	try {
 		const person = req.body;
-		list.push({ id: sequence, ...person, group: defineGroup(person.age) });
-		sequence += 1;
-		res.status(200).send(list);
+		if (person.age >= 0) {
+			list.push({ id: sequence, ...person, group: defineGroup(person.age) });
+			sequence += 1;
+			return res.status(200).send(list);
+		}
+		return res.status(500).send(`Invalid age!`);
 	} catch (err) {
 		res.status(500).send(`Error during person insertion: ${err}`);
 	}
