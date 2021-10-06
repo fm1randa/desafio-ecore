@@ -110,12 +110,51 @@
 
 					inserted = list;
 					clearLists();
+					orderHandler();
 				} catch (err) {
 					alert("Ocorreu um erro ao inserir: " + err);
 				}
 			}
 
+			function orderHandler() {
+				const orderBy = select.value;
+				const prop = orderBy.split(" ")[0];
+				const DESC = orderBy.split(" ")[1] === "DESC";
+				if (prop === "Nome") {
+					inserted = inserted.sort((a, b) => {
+						if (DESC) {
+							if (a.name < b.name) {
+								return 1;
+							}
+							return -1;
+						} else {
+							if (a.name > b.name) {
+								return 1;
+							}
+							return -1;
+						}
+					});
+				} else {
+					inserted = inserted.sort((a, b) => {
+						if (DESC) {
+							if (a.age < b.age) {
+								return 1;
+							}
+							return -1;
+						} else {
+							if (a.age > b.age) {
+								return 1;
+							}
+							return -1;
+						}
+					});
+				}
+				clearLists();
+				inserted.map((person) => mountList(person, true));
+			}
+
 			insertBtn.onclick = insertHandler;
+			select.onchange = orderHandler;
 			loadHandler();
 		</script>
 	</body>
