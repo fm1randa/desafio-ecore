@@ -7,8 +7,8 @@ app.use(cors());
 const port = 3000;
 
 const list = [
-	{ id: 1, name: "Filipe Miranda", age: 20, group: defineGroup(20) },
-	{ id: 2, name: "Tiago Miranda", age: 11, group: defineGroup(11) },
+	{ id: 1, name: "Filipe", age: 20, group: defineGroup(20) },
+	{ id: 2, name: "Tiago", age: 11, group: defineGroup(11) },
 ];
 
 let sequence = 3;
@@ -39,10 +39,10 @@ app.post("/list", (req, res) => {
 		sequence += 1;
 		res.status(200).send(list);
 	} catch (err) {
-		res.status(500).send(`Erro ao inserir pessoa: ${err}`);
+		res.status(500).send(`Error during person insertion: ${err}`);
 	}
 });
 
 app.listen(3000, () => {
-	console.log(`api is running @ localhost:${port}`);
+	console.log(`API is running @ localhost:${port}!`);
 });
