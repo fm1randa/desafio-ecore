@@ -47,23 +47,23 @@
 			const api = axios.create({
 				baseURL: "http://localhost:3000",
 			});
-			const kid = document.querySelector("#kid");
-			const teen = document.querySelector("#teen");
-			const adult = document.querySelector("#adult");
-			const elder = document.querySelector("#elder");
-			const insertBtn = document.querySelector("#insert");
-			const select = document.querySelector("#select");
+			const kidList = document.querySelector("#kid");
+			const teenList = document.querySelector("#teen");
+			const adultList = document.querySelector("#adult");
+			const elderList = document.querySelector("#elder");
+			const insertButton = document.querySelector("#insert");
+			const orderSelect = document.querySelector("#select");
 
 			let inserted = [];
 
 			function clearLists() {
-				kid.innerHTML = "";
-				teen.innerHTML = "";
-				adult.innerHTML = "";
-				elder.innerHTML = "";
+				kidList.innerHTML = "";
+				teenList.innerHTML = "";
+				adultList.innerHTML = "";
+				elderList.innerHTML = "";
 			}
 
-			function mountList(person, remount) {
+			function appendToList(person, remount) {
 				if (
 					remount ||
 					!inserted.find((insertedPerson) => insertedPerson.id === person.id)
@@ -71,16 +71,16 @@
 					const listItem = document.createElement("li");
 					listItem.textContent = `${person.name} - ${person.age} anos`;
 					if (person.group === "kid") {
-						kid.appendChild(listItem);
+						kidList.appendChild(listItem);
 					}
 					if (person.group === "teen") {
-						teen.appendChild(listItem);
+						teenList.appendChild(listItem);
 					}
 					if (person.group === "adult") {
-						adult.appendChild(listItem);
+						adultList.appendChild(listItem);
 					}
 					if (person.group === "elder") {
-						elder.appendChild(listItem);
+						elderList.appendChild(listItem);
 					}
 				}
 			}
@@ -89,24 +89,30 @@
 				const { data: list } = await api.get("/list");
 
 				list.map((person) => {
-					mountList(person);
+					appendToList(person);
 				});
 
 				inserted = list;
 				orderHandler();
 			}
 
+			function nameNormalize(name) {
+				const nameArray = name.split(" ");
+				const normalizedName = nameArray.reduce((prev, curr) => {
+					return prev + curr.charAt(0).toUpperCase() + curr.slice(1) + " ";
+				}, "");
+				return normalizedName;
+			}
+
 			async function insertHandler() {
 				try {
-					const name =
-						document.querySelector("#name").value.charAt(0).toUpperCase() +
-						document.querySelector("#name").value.slice(1);
+					const name = nameNormalize(document.querySelector("#name").value);
 					const age = Number(document.querySelector("#age").value);
 
 					const { data: list } = await api.post("/list", { name, age });
 
 					list.map((person) => {
-						mountList(person);
+						appendToList(person);
 					});
 
 					inserted = list;
@@ -118,7 +124,7 @@
 			}
 
 			function orderHandler() {
-				const orderBy = select.value;
+				const orderBy = orderSelect.value;
 				const prop = orderBy.split(" ")[0];
 				const DESC = orderBy.split(" ")[1] === "DESC";
 				if (prop === "Nome") {
@@ -151,11 +157,11 @@
 					});
 				}
 				clearLists();
-				inserted.map((person) => mountList(person, true));
+				inserted.map((person) => appendToList(person, true));
 			}
 
-			insertBtn.onclick = insertHandler;
-			select.onchange = orderHandler;
+			insertButton.onclick = insertHandler;
+			orderSelect.onchange = orderHandler;
 			loadHandler();
 		</script>
 	</body>
