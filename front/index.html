@@ -54,8 +54,38 @@
 			const insertBtn = document.querySelector("#insert");
 			const select = document.querySelector("#select");
 
+			let inserted = [];
+
+			function mountList(person, remount) {
+				if (
+					remount ||
+					!inserted.find((insertedPerson) => insertedPerson.id === person.id)
+				) {
+					const listItem = document.createElement("li");
+					listItem.textContent = `${person.name} - ${person.age} anos`;
+					if (person.group === "kid") {
+						kid.appendChild(listItem);
+					}
+					if (person.group === "teen") {
+						teen.appendChild(listItem);
+					}
+					if (person.group === "adult") {
+						adult.appendChild(listItem);
+					}
+					if (person.group === "elder") {
+						elder.appendChild(listItem);
+					}
+				}
+			}
+
 			async function loadHandler() {
 				const { data: list } = await api.get("/list");
+
+				list.map((person) => {
+					mountList(person);
+				});
+
+				inserted = list;
 			}
 
 			loadHandler();
