@@ -47,10 +47,15 @@
 			const api = axios.create({
 				baseURL: "http://localhost:3000",
 			});
+			const kid = document.querySelector("#kid");
+			const teen = document.querySelector("#teen");
+			const adult = document.querySelector("#adult");
+			const elder = document.querySelector("#elder");
+			const insertBtn = document.querySelector("#insert");
+			const select = document.querySelector("#select");
 
 			async function loadHandler() {
 				const { data: list } = await api.get("/list");
-				console.log(list);
 			}
 
 			loadHandler();
