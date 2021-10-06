@@ -56,6 +56,13 @@
 
 			let inserted = [];
 
+			function clearLists() {
+				kid.innerHTML = "";
+				teen.innerHTML = "";
+				adult.innerHTML = "";
+				elder.innerHTML = "";
+			}
+
 			function mountList(person, remount) {
 				if (
 					remount ||
@@ -88,6 +95,27 @@
 				inserted = list;
 			}
 
+			async function insertHandler() {
+				try {
+					const name =
+						document.querySelector("#name").value.charAt(0).toUpperCase() +
+						document.querySelector("#name").value.slice(1);
+					const age = Number(document.querySelector("#age").value);
+
+					const { data: list } = await api.post("/list", { name, age });
+
+					list.map((person) => {
+						mountList(person);
+					});
+
+					inserted = list;
+					clearLists();
+				} catch (err) {
+					alert("Ocorreu um erro ao inserir: " + err);
+				}
+			}
+
+			insertBtn.onclick = insertHandler;
 			loadHandler();
 		</script>
 	</body>
